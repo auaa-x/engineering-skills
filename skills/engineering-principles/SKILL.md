@@ -7,6 +7,16 @@ description: Apply practical engineering principles for clear control flow, just
 
 Apply these principles when writing, reviewing, debugging, or refactoring code. They are shared across frontend, backend, tooling, and application code. Framework-specific guidance should be applied separately.
 
+## Applying These Principles
+
+Apply only the sections relevant to the current task; do not treat every rule as a mandatory checklist for every change.
+
+- Before implementation, identify the main design decisions and apply the relevant principles.
+- During implementation, use the control-flow, abstraction, type, and invariant rules touched by the change.
+- After narrowing APIs, capabilities, callers, ownership, or representable states, re-evaluate dependent behavior against the new reachable state space.
+- During final review, use the review checklist for the affected code and contracts.
+- For debugging, focus on reachable failure modes, ownership, invariants, and state transitions.
+
 ## Core Principles
 
 - Prefer simple, direct code over speculative design.
@@ -117,6 +127,10 @@ When a contract changes, update its type, runtime behavior, boundary representat
 
 - When a capability, option, or contract is removed, remove its dependent configuration, copy, and dead code instead of preserving unused entries.
 - Do not preserve obsolete entries merely to avoid touching related code; keep compatibility only when it is an explicit requirement.
+- When a change narrows public APIs, allowed callers, capabilities, ownership, or representable states, re-evaluate dependent branches, options, guards, types, abstractions, configuration, and tests against the new reachable state space.
+- Do not treat review findings as independent when one structural change changes the assumptions behind another.
+- After applying a structural fix, perform a second review of the affected code—not only tests and type checks—and remove behavior that has become unreachable, redundant, or speculative.
+- Scope the second review to code whose assumptions depended on the removed capability, expanding the review when the affected behavior is shared or public.
 
 ## Review Checklist
 
@@ -128,6 +142,7 @@ When a contract changes, update its type, runtime behavior, boundary representat
 - Is the control flow easy to follow in one pass?
 - Are errors and lifecycle behavior intentional?
 - Do the tests verify behavior rather than implementation shape?
+- After these changes, which previously reachable states or callers no longer exist, and what code only served them?
 
 ## Related Workflows
 
