@@ -22,7 +22,11 @@ Place an instruction at the highest directory where it remains true and useful f
 
 ## Inspect the Governed Area
 
-Derive evidence from the actual repository:
+Inventory the full governed area at the structural level: instruction files, directories, manifests, package boundaries, commands, configuration, public entry points, and generated or externally owned paths.
+
+Then inspect representative implementation and test files for each responsibility relevant to the requested instructions. Expand beyond that sample only when observed patterns conflict, the evidence is insufficient, the area is unusually risky, or the user requests an exhaustive audit.
+
+Derive evidence from:
 
 - package responsibilities and public interfaces;
 - consumers and dependency direction;
@@ -34,6 +38,8 @@ Derive evidence from the actual repository:
 - recent corrections or repeated failures that indicate missing guidance.
 
 Do not infer a convention from one occurrence, an unused file, or a framework default. Record uncertainty as a question rather than a rule.
+
+Distinguish an inventory from an audit. Do not claim complete implementation coverage when the work used representative samples.
 
 ## Derive the Interview
 

@@ -1,21 +1,30 @@
 ---
 name: instruction-curator
-description: Design or refine AGENTS.md and SKILL.md by inspecting existing context, deriving a purpose-specific checklist, interviewing for missing intent, and preventing misplaced, duplicated, or ambiguous instructions.
+description: Design or refine agent instructions and coding rules for AGENTS.md or SKILL.md. Use when deciding rule scope, placement, specificity, inheritance, activation, or when interviewing a user before drafting instruction files.
 ---
 
 # Instruction Curator
 
-Design instruction documents that are scoped to the decisions they own. Use this skill when creating, restructuring, or adding rules to `AGENTS.md` or `SKILL.md`.
+Design instruction documents that are scoped to the decisions they own. Use this skill when creating, restructuring, or adding rules to `AGENTS.md` or `SKILL.md`, including when a proposed rule may belong in another artifact instead.
 
 Do not treat a proposed rule as accepted merely because it was suggested. First determine what problem it solves, where it belongs, and how strongly it should apply.
 
+> Put each instruction where its decision is owned and enforced; do not duplicate it merely to make it visible.
+
 ## Choose the Instruction Mechanism
 
-Determine the target from the intended behavior, not from the user's first filename suggestion:
+Determine the target from the intended behavior, not from the user's first filename suggestion.
 
-- Use `AGENTS.md` for ambient repository guidance that should apply whenever an agent works in a directory tree.
-- Use `SKILL.md` for reusable, task-triggered guidance that should activate because of what the user is doing.
-- Keep ordinary explanation in project documentation when it does not direct agent behavior.
+| Target | Use when the content owns |
+| --- | --- |
+| `AGENTS.md` | Ambient repository guidance that should apply whenever an agent works in a directory tree |
+| `SKILL.md` | Reusable, task-triggered guidance that should activate because of what the user is doing |
+| README or API documentation | Explanation for human users and consumers, including setup, concepts, and supported usage |
+| Design specification or ADR | Product intent, architectural decisions, alternatives, rationale, and consequences |
+| Tests | Executable behavioral examples, contracts, regressions, and invariants |
+| Linting, schemas, types, or other automated checks | Mechanically enforceable constraints that should fail consistently when violated |
+
+An instruction file may point to the artifact that owns a fact or enforcement mechanism. Do not copy the same content into multiple places.
 
 If the target is `AGENTS.md`, read [references/agents-md.md](references/agents-md.md) before drafting.
 
@@ -25,10 +34,12 @@ If the target is `SKILL.md`, read [references/skill-md.md](references/skill-md.m
 
 ### Inspect before interviewing
 
-Read the existing instructions and the material they govern before asking questions.
+Read the existing instructions and the material they govern before asking questions. Bound the investigation according to the requested outcome.
 
-- For `AGENTS.md`, inspect every ancestor instruction file, the target subtree, its manifests, commands, public interfaces, tests, and representative implementation.
-- For `SKILL.md`, inspect the existing skill, related skills, realistic triggering requests, supporting resources, and the environment in which it will be installed.
+- For `AGENTS.md`, inventory the full governed scope through its instruction files, directory structure, manifests, commands, configuration, and public entry points. Inspect representative implementations and tests for each relevant responsibility. Expand the sample only when patterns conflict, evidence is insufficient, risk justifies it, or the user requests an exhaustive audit.
+- For `SKILL.md`, read the target skill and its required references completely. Inspect neighboring skills through their discovery metadata first, then read only those whose responsibilities materially overlap. Consider realistic triggering requests and the environment in which the skill will be installed.
+
+Do not imply exhaustive implementation review when only representative evidence was inspected. State meaningful limits when they affect confidence.
 
 Separate what can be discovered from what requires human intent. Do not ask the user to repeat facts already available in the repository.
 

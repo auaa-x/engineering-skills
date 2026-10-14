@@ -5,7 +5,7 @@ A small collection of skills for applying engineering principles and designing a
 ## Skills
 
 - `engineering-principles` applies practical coding principles for clear control flow, justified abstractions, explicit invariants, and focused changes.
-- `instruction-curator` designs or refines `AGENTS.md` and `SKILL.md` through repository inspection and a purpose-specific interview.
+- `instruction-curator` places and refines agent instructions through bounded repository inspection and a purpose-specific interview, including deciding whether guidance belongs in `AGENTS.md`, `SKILL.md`, documentation, design records, tests, or automated checks.
 
 ## Install
 
