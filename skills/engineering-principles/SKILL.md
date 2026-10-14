@@ -12,6 +12,7 @@ Apply these principles when writing, reviewing, debugging, or refactoring code. 
 - Prefer simple, direct code over speculative design.
 - Make domain behavior, ownership, and state transitions explicit.
 - Optimize for local reasoning: a reader should understand code without tracing unnecessary indirection.
+- Prefer deriving behavior from the module that owns the relevant data or capability. Avoid passing duplicated metadata when the receiving module can obtain it from its authoritative source.
 - Keep changes focused and avoid unrelated refactoring.
 - Prefer current, demonstrated requirements over hypothetical future needs.
 - Reduce duplication when it improves consistency, but do not hide meaningful differences.
@@ -19,12 +20,12 @@ Apply these principles when writing, reviewing, debugging, or refactoring code. 
 ## Control Flow
 
 - Prefer early returns to reduce nesting and keep the main path visible.
-- Use `switch` when branches represent multiple distinct named cases.
-- Use configuration maps when cases share the same behavior and differ mainly by data.
+- Prefer `switch` over a long `if`/`else if` chain when branches discriminate on one value and represent named, mutually exclusive cases.
+- Prefer conditional logic when conditions involve ranges, multiple variables, unrelated predicates, or different kinds of checks.
+- When several cases share the same processing shape, represent their meaningful differences as configuration and centralize the shared iteration.
 - Avoid deeply nested conditionals and opaque nested ternaries.
 - Keep related decisions together instead of scattering them across helpers.
-- Prefer one understandable pass over a collection when multiple passes perform related work.
-- Accumulate related results in one loop when the mutable state remains simple and clear.
+- Avoid unnecessary repeated passes over the same data. Prefer one pass when related results can be accumulated without making the state harder to understand.
 - Do not force a one-loop solution when separate passes make the behavior easier to understand.
 - Make state changes visible so readers can see what changes and why.
 - Reduce line count when doing so removes repetition or improves scanability, not by compressing meaningful logic.
@@ -38,6 +39,7 @@ Apply these principles when writing, reviewing, debugging, or refactoring code. 
 - Prefer direct code until a stable responsibility emerges.
 - Prefer configuration-driven deduplication when several cases share the same structure and differ primarily by data.
 - Keep case-specific behavior visible in configuration instead of hiding it behind an overly generic abstraction.
+- Represent structured capability differences as domain data when the behavior has a stable shared structure.
 - Remove abstractions when the responsibility that justified them disappears.
 - Do not judge abstractions by line count or usage count alone. A single-use abstraction is valid when it names an important concept or decision.
 - Keep an abstraction's interface smaller and simpler than the complexity it owns.
@@ -72,10 +74,14 @@ When reviewing an abstraction, ask:
 - Define input shapes near the functions that consume them.
 - Let inference handle obvious local types.
 - Annotate public or non-obvious contracts.
+- Prefer `Pick` when the intended field set is explicit and stable. Use `Omit` when the meaningful relationship is “the source type except for these fields” and future source fields should intentionally flow through.
+- Avoid chained or nested `Pick`/`Omit` types when a named type makes the resulting shape clearer.
 - Keep public interfaces small, explicit, and difficult to misuse.
 - Accept dependencies through interfaces or parameters when this improves testability.
 - Return meaningful results instead of exposing unnecessary side effects.
 - Keep domain-specific behavior out of generic infrastructure unless the infrastructure owns that policy.
+
+When a contract changes, update its type, runtime behavior, boundary representation, and relevant tests as one coherent change.
 
 ## Errors and Async Code
 
@@ -106,6 +112,11 @@ When reviewing an abstraction, ask:
 - Use tests to document meaningful invariants.
 - Validate focused changes first, then run broader repository checks when appropriate.
 - Do not add tests for unreachable defensive scenarios unless the lifecycle can realistically reach them.
+
+## Change Discipline
+
+- When a capability, option, or contract is removed, remove its dependent configuration, copy, and dead code instead of preserving unused entries.
+- Do not preserve obsolete entries merely to avoid touching related code; keep compatibility only when it is an explicit requirement.
 
 ## Review Checklist
 
