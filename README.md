@@ -10,13 +10,13 @@ A small collection of skills for applying engineering principles and designing a
 ## Install
 
 ```bash
-npx skills add auaa-x/engineering-principles --global
+npx skills add auaa-x/engineering-skills --global
 ```
 
 Install non-interactively for all supported agents:
 
 ```bash
-npx skills add auaa-x/engineering-principles --all --global
+npx skills add auaa-x/engineering-skills --all --global
 ```
 
 The skills are intentionally language- and framework-agnostic. Product-, framework-, and repository-specific guidance should remain in appropriately scoped instructions.
