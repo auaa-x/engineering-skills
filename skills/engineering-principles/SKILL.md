@@ -44,6 +44,8 @@ Apply only the sections relevant to the current task; do not treat every rule as
 
 - Introduce an abstraction only when it reduces total reasoning cost by owning or naming a meaningful concept, invariant, policy, state transition, volatile implementation detail, complex decision, or genuine reuse.
 - Justify a local variable or type alias when it makes intent, structure, or a domain concept clearer.
+- In demo, fixture, or configuration code, prefer inlining a single-use value at its consumer when the binding adds no independent meaning.
+- Keep a single-use binding only when it names an independent domain concept or intentionally controls evaluation, reference identity, ownership, allocation, or lifetime.
 - Extract helpers mainly when the behavior is shared, independently meaningful, or substantially easier to understand as a separate operation.
 - Do not introduce pass-through abstractions that merely rename, forward, wrap, or repackage another construct without adding meaning, constraints, or behavior.
 - Prefer direct code until a stable responsibility emerges.
