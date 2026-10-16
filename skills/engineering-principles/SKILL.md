@@ -7,6 +7,8 @@ description: Apply practical engineering principles for clear control flow, just
 
 Apply these principles when writing, reviewing, debugging, or refactoring code. They are shared across frontend, backend, tooling, and application code. Framework-specific guidance should be applied separately.
 
+For decisions about module boundaries, interface shape, seams, adapters, dependency placement, or module depth, use `codebase-design` as the authoritative guidance. This skill governs implementation-level decisions and does not redefine that architecture vocabulary.
+
 ## Applying These Principles
 
 Apply only the sections relevant to the current task; do not treat every rule as a mandatory checklist for every change.
@@ -37,7 +39,7 @@ For every changed module or component:
 - Check whether feature-specific behavior has leaked into generic containers or composition components.
 - Check whether domain workflows remain at the boundary that owns them.
 - Report cohesion, ownership, and change-locality problems even when behavior is functionally correct.
-- Propose the smallest design change that restores cohesion; extract only when the new boundary has meaningful ownership or reuse.
+- Identify the responsibility or ownership mismatch and report the affected boundary. Defer decisions about new module boundaries, seams, adapters, interfaces, dependency placement, or module depth to `codebase-design`.
 
 Rank the strongest responsibility-growth findings and cite exact changed lines.
 
@@ -78,7 +80,6 @@ Rank the strongest responsibility-growth findings and cite exact changed lines.
 - Represent structured capability differences as domain data when the behavior has a stable shared structure.
 - Remove abstractions when the responsibility that justified them disappears.
 - Do not judge abstractions by line count or usage count alone. A single-use abstraction is valid when it names an important concept or decision.
-- Keep an abstraction's interface smaller and simpler than the complexity it owns.
 
 When reviewing an abstraction, ask:
 
@@ -86,7 +87,6 @@ When reviewing an abstraction, ask:
 - What responsibility, decision, or guarantee does it own?
 - Does it reduce duplication or centralize a meaningful policy?
 - Does it improve readability enough to justify the indirection?
-- If removed, does meaningful complexity reappear at the caller?
 - Is it based on current behavior or only hypothetical reuse?
 
 ## Defensive Code and Invariants
@@ -112,9 +112,6 @@ When reviewing an abstraction, ask:
 - Annotate public or non-obvious contracts.
 - Prefer `Pick` when the intended field set is explicit and stable. Use `Omit` when the meaningful relationship is “the source type except for these fields” and future source fields should intentionally flow through.
 - Avoid chained or nested `Pick`/`Omit` types when a named type makes the resulting shape clearer.
-- Keep public interfaces small, explicit, and difficult to misuse.
-- Accept dependencies through interfaces or parameters when this improves testability.
-- Return meaningful results instead of exposing unnecessary side effects.
 - Keep domain-specific behavior out of generic infrastructure unless the infrastructure owns that policy.
 
 When a contract changes, update its type, runtime behavior, boundary representation, and relevant tests as one coherent change.
