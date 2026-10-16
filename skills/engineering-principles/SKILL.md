@@ -11,11 +11,35 @@ Apply these principles when writing, reviewing, debugging, or refactoring code. 
 
 Apply only the sections relevant to the current task; do not treat every rule as a mandatory checklist for every change.
 
+- When reviewing changes, use the review passes below in addition to the relevant principles; they do not replace or narrow the rest of this skill.
 - Before implementation, identify the main design decisions and apply the relevant principles.
 - During implementation, use the control-flow, abstraction, type, and invariant rules touched by the change.
 - After narrowing APIs, capabilities, callers, ownership, or representable states, re-evaluate dependent behavior against the new reachable state space.
 - During final review, use the review checklist for the affected code and contracts.
 - For debugging, focus on reachable failure modes, ownership, invariants, and state transitions.
+
+## Reviewing Changes
+
+When reviewing a PR or change, perform two passes:
+
+### Correctness pass
+
+Check behavioral, state, error-handling, lifecycle, contract, and invariant problems.
+
+### Responsibility and design pass
+
+For every changed module or component:
+
+- Infer its pre-change responsibility from its name, callers, and implementation.
+- Identify responsibilities introduced by the change.
+- Compare the pre-change and post-change responsibility surface.
+- Flag material growth in feature coupling, side effects, dependencies, state, mutations, logging, notifications, or rendering.
+- Check whether feature-specific behavior has leaked into generic containers or composition components.
+- Check whether domain workflows remain at the boundary that owns them.
+- Report cohesion, ownership, and change-locality problems even when behavior is functionally correct.
+- Propose the smallest design change that restores cohesion; extract only when the new boundary has meaningful ownership or reuse.
+
+Rank the strongest responsibility-growth findings and cite exact changed lines.
 
 ## Core Principles
 
@@ -144,6 +168,8 @@ When a contract changes, update its type, runtime behavior, boundary representat
 - Is the control flow easy to follow in one pass?
 - Are errors and lifecycle behavior intentional?
 - Do the tests verify behavior rather than implementation shape?
+- Did any changed module gain material responsibilities, coupling, or side effects that belong elsewhere?
+- Did a generic component acquire feature-specific behavior instead of keeping it at its owning boundary?
 - After these changes, which previously reachable states or callers no longer exist, and what code only served them?
 
 ## Examples
