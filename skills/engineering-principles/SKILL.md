@@ -146,6 +146,10 @@ When a contract changes, update its type, runtime behavior, boundary representat
 - Do the tests verify behavior rather than implementation shape?
 - After these changes, which previously reachable states or callers no longer exist, and what code only served them?
 
+## Examples
+
+See [`examples.md`](examples.md) for concise preferred and less-preferred code examples.
+
 ## Related Workflows
 
 - Use `karpathy-guidelines` for implementation and focused refactoring.
