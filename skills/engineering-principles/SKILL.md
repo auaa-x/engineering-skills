@@ -41,6 +41,14 @@ For every changed module or component:
 - Report cohesion, ownership, and change-locality problems even when behavior is functionally correct.
 - Identify the responsibility or ownership mismatch and report the affected boundary. Defer decisions about new module boundaries, seams, adapters, interfaces, dependency placement, or module depth to `codebase-design`.
 
+### Existing review discussion
+
+When reviewing an existing PR:
+
+- Read existing PR discussion and compare findings semantically, not by exact wording.
+- Do not repeat a covered finding unless the current code adds new evidence, scope, or a regression.
+- Re-check stale or resolved discussions against the current diff before relying on them.
+
 Rank the strongest responsibility-growth findings and cite exact changed lines.
 
 ## Core Principles
@@ -167,6 +175,7 @@ When a contract changes, update its type, runtime behavior, boundary representat
 - Do the tests verify behavior rather than implementation shape?
 - Did any changed module gain material responsibilities, coupling, or side effects that belong elsewhere?
 - Did a generic component acquire feature-specific behavior instead of keeping it at its owning boundary?
+- Did I compare each finding with existing PR discussion before reporting it?
 - After these changes, which previously reachable states or callers no longer exist, and what code only served them?
 
 ## Examples
