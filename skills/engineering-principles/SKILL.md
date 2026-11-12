@@ -7,9 +7,9 @@ description: Apply practical engineering principles when implementing, reviewing
 
 Apply these principles when implementing, reviewing, debugging, or refactoring frontend, backend, tooling, and application code. This skill is self-contained; the recommended companion skills below add depth and workflows when available.
 
-Apply only the sections relevant to the task. Before implementation, identify the affected ownership, guarantees, and main design decisions. For debugging, focus on reachable failure modes and state transitions. Use the review procedure below when assessing changes.
+Apply only the sections relevant to the task. Before implementation, identify the affected ownership, guarantees, and main design decisions. For debugging, focus on reachable failure modes and state transitions. For reviews, apply the criteria below; `engineering-review` adds execution and PR mechanics when installed.
 
-Prefer the simplest structure that meets current, demonstrated requirements and makes local reasoning clear. Keep changes focused on the requested outcome, without speculative capabilities or unrelated refactoring.
+Use as little code as possible to meet current, demonstrated requirements while preserving correctness and clear intent. Prefer reuse and deletion over new code; retain extra structure only for a demonstrated benefit. Reduce code across the whole change rather than compressing logic or shifting it into helpers to shorten a caller. Keep changes focused on the requested outcome, without speculative capabilities or unrelated refactoring.
 
 ## Ownership and Domain State
 
@@ -25,7 +25,6 @@ Prefer the simplest structure that meets current, demonstrated requirements and 
 - When cases share a processing shape, represent meaningful differences, including structured capability differences, as domain data or configuration and centralize the shared iteration. Preserve case-specific behavior visibly rather than hiding differences behind an overly generic abstraction.
 - Keep related decisions together instead of scattering them across helpers.
 - Combine repeated passes when related results can be accumulated clearly; retain separate passes when they make behavior easier to understand.
-- Reduce line count when doing so removes repetition or improves scanability, not by compressing meaningful logic.
 
 ## Abstractions and Indirection
 
@@ -33,6 +32,7 @@ Prefer the simplest structure that meets current, demonstrated requirements and 
 - Keep local variables, aliases, and helpers when they clarify intent or structure, own independently meaningful or shared behavior, or control evaluation, reference identity, ownership, allocation, or lifetime. Otherwise prefer direct code, especially for single-use values in demos, fixtures, and configuration.
 - Prefer early destructuring of repeatedly used or deeply nested properties to reduce chained access and clarify local intent. Keep simple single-use access direct, and preserve type narrowing, method binding, and read timing—especially in async callbacks.
 - Do not introduce pass-through abstractions that merely rename, forward, wrap, or repackage another construct without adding meaning, constraints, or behavior.
+- Pass existing functions directly as callbacks when signatures, invocation behavior, and binding are compatible, for example `onClick={onNext}`. Retain wrappers only when they adapt arguments, preserve binding, add required behavior, or satisfy a required return/async contract.
 - After control-flow or discriminated-union narrowing, check whether a branch reconstructs an object field by field even though the narrowed value already satisfies the downstream contract. Prefer the narrowed value directly when reconstruction performs no transformation and is not an intentional runtime whitelist or boundary. If filtering the runtime shape is important, keep that boundary explicit.
 
 For each introduced or changed layer, boundary, or duplicated representation, make a structural comparison:
@@ -103,11 +103,9 @@ Apply this section to UI changes, using the application's existing screens and s
 - Support each finding with a concrete trigger or violated requirement, a tight code location, its consequence, and a fix or simpler alternative. Identify uncertainty; keep hypothetical failures separate from confirmed findings.
 - Consolidate findings that share a cause and fix, using related scenarios as supporting evidence. Keep failure paths separate when they require different fixes or recovery; proximity in one file alone does not establish duplication. Re-evaluate findings whose assumptions change after another structural fix.
 
-### Existing PR Conversations
+### Existing Review Discussions
 
-- Before reviewing an existing PR, read its description, top-level conversation, every review body, and every review thread's full chronological conversation, including all replies and resolved/outdated status. Paginate thread lists and replies and expand collapsed discussions as needed. State any inaccessible or truncated conversation before claiming the review avoids overlap.
-- Reconcile findings with that conversation and its recorded decisions. Distinguish fixes, withdrawn claims, accepted or deferred risks, unresolved questions, and independent new findings. Verify claimed fixes against the current code; a closed discussion can retain a technical risk without remaining an outstanding change request. Label those separately, and revisit a settled decision only with material new evidence that changes its assumptions. Explain that evidence and revise or withdraw claims invalidated by it.
-- When posting is authorized, refresh the full conversation and thread statuses before publishing. Add independent findings, extend open threads for related scenarios, and revise your own earlier comments when appropriate. Reply to another author's thread rather than rewriting their comment. Keep comments and summaries focused on code and decisions, with no skill names or review-process boilerplate unless requested. Verify published bodies and locations.
+Reconcile findings with the complete prior conversation and recorded decisions. Distinguish fixes, withdrawn claims, accepted or deferred risks, unresolved questions, and independent new findings. Verify claimed fixes against current code; a closed discussion can retain technical risk without remaining an outstanding change request. Revisit settled decisions only with material new evidence that changes their assumptions; explain that evidence and revise or withdraw invalidated claims.
 
 ## Optional Companion Skills
 
@@ -115,6 +113,7 @@ These skills are recommended when installed and relevant to the task. They suppl
 
 - `karpathy-guidelines`: task clarification, implementation, and focused refactoring.
 - `codebase-design`: module-design vocabulary and deeper interface decisions.
+- `engineering-review`: preferred PR and local-diff workflow for these principles, including conversation retrieval and publishing.
 - `code-review`: a structured review workflow, including separate Standards and Spec passes.
 - `tdd`: test-first development for behavior-heavy logic and stateful changes.
 - Frontend-specific skills: framework, performance, accessibility, and visual validation guidance.

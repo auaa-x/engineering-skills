@@ -15,7 +15,12 @@ Apply the repository's relevant `AGENTS.md` and documented conventions. Keep rep
 
 - For a PR, capture its current head, base, and merge-base commits. For a branch, honor the requested comparison or infer the repository's integration branch. For local changes, include staged, unstaged, and relevant new files unless the user narrows the scope. Ask only when the comparison cannot be inferred reliably. Keep the reviewed diff fixed and report its scope.
 - Use the PR description, linked requirements, documented contracts, and recorded decisions as evidence. When no separate spec exists, continue the implementation review and label inferred intent or unresolved requirement questions.
-- For an existing PR, complete the **Existing PR Conversations** procedure in engineering-principles before reviewing. Carry its decisions into the review rather than treating every historical comment as an outstanding request.
+- For an existing PR, complete **Existing PR Conversations** below before reviewing.
+
+## Existing PR Conversations
+
+- Read the PR description, top-level conversation, every review body, and every review thread's full chronological conversation, including all replies and resolved/outdated status. Paginate thread lists and replies and expand collapsed discussions as needed. State any inaccessible or truncated conversation before claiming the review avoids overlap.
+- Apply **Existing Review Discussions** from engineering-principles to record each previous finding's outcome and the decisions or assumptions behind it. Carry that evidence into both review passes and reconcile candidate findings with it.
 
 ## Complete two passes
 
@@ -34,4 +39,10 @@ Apply **Review Coverage and Reporting** from engineering-principles, including u
 
 Include the reviewed commits or local scope, checks performed, and meaningful verification limits. Few or no findings is valid after complete coverage.
 
-Return the review in chat by default. Editing code or publishing PR comments requires user authorization; an instruction to review and post already provides it. When publishing is authorized, follow engineering-principles' conversation refresh, reconciliation, and publication verification procedure. Keep published comments focused on code and decisions.
+Return the review in chat by default. Editing code or publishing PR comments requires user authorization; an instruction to review and post already provides it.
+
+## Publish when authorized
+
+Refresh the complete conversation and thread statuses using **Existing PR Conversations** above before publishing. Reconcile the findings with the refreshed evidence under engineering-principles' **Existing Review Discussions** criteria.
+
+Add independent findings, extend open threads for related scenarios, and revise your own earlier comments when appropriate. Reply to another author's thread rather than rewriting their comment. Keep comments and summaries focused on code and decisions, with no skill names or review-process boilerplate unless requested. Verify published bodies and locations.
