@@ -14,7 +14,7 @@ install_skills() {
 }
 
 install_skills auaa-x/engineering-skills \
-  engineering-principles instruction-curator
+  engineering-principles engineering-review instruction-curator
 
 install_skills mattpocock/skills \
   codebase-design code-review diagnosing-bugs prototype tdd

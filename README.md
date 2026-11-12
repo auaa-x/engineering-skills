@@ -5,7 +5,22 @@ A small collection of skills for applying engineering principles and designing a
 ## Skills
 
 - `engineering-principles` applies practical coding principles for clear control flow, justified abstractions, explicit invariants, and focused changes.
+- `engineering-review` applies those principles through separate correctness and ownership/simplification passes, with complete diff coverage and reconciliation of existing PR discussions.
 - `instruction-curator` places and refines agent instructions through bounded repository inspection and a purpose-specific interview, including deciding whether guidance belongs in `AGENTS.md`, `SKILL.md`, documentation, design records, tests, or automated checks.
+
+## Review
+
+```text
+Review <PR_URL> with $engineering-review.
+```
+
+To publish the findings as well:
+
+```text
+Review <PR_URL> with $engineering-review and post the findings.
+```
+
+`engineering-review` uses `engineering-principles` as its source of coding criteria and reporting rules. Install both together. Its distinct name allows it to coexist with the upstream `code-review` companion.
 
 ## Install
 
@@ -17,7 +32,7 @@ curl -fsSL https://raw.githubusercontent.com/auaa-x/engineering-skills/main/inst
 
 The bundle installs:
 
-- `engineering-principles` and `instruction-curator` from this repository.
+- `engineering-principles`, `engineering-review`, and `instruction-curator` from this repository.
 - `codebase-design`, `code-review`, `diagnosing-bugs`, `prototype`, and `tdd` from `mattpocock/skills`.
 - `vercel-react-best-practices` and `vercel-composition-patterns` from `vercel-labs/agent-skills`.
 
